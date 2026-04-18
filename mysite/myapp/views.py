@@ -65,7 +65,7 @@ def download_resume(request,pk):
     context={'profile':profile,'skills_list':skills_list}
     template=get_template(template_path)
     html=template.render(context)
-    response=HttpResponse(content_type='applucation/pdf')
+    response=HttpResponse(content_type='application/pdf')
     response['Content-Disposition']=f'attachment; filename={profile.name}_CV.pdf'
     pisa_status=pisa.CreatePDF(io.BytesIO(html.encode('UTF-8')),dest=response,encoding='UTF-8')
     if pisa_status.err:
