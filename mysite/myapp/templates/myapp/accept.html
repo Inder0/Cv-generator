@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl">
+        <h2 class="text-2xl font-bold mb-6">Create Profile</h2>
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div >
+            <label class="block text-gray-700 font-medium" for="name">Name</label>
+            <input class="w-full border rounded p-2" type="text" name="name" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="email">Email</label>
+            <input class="w-full border rounded p-2" type="text" name="email" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="phone">Phone</label>
+            <input class="w-full border rounded p-2" type="text" name="phone" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="degree">Degree</label>
+            <input class="w-full border rounded p-2" type="text" name="degree" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="school">School</label>
+            <input class="w-full border rounded p-2" type="text" name="school" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="univeristy">University</label>
+            <input class="w-full border rounded p-2" type="text" name="university" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="summary">Summary</label>
+            <input class="w-full border rounded p-2" type="text" name="summary" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="previous_work">Previous Work</label>
+            <input class="w-full border rounded p-2" type="text" name="previous_work" id="">
+        </div>
+         <div>
+            <label class="block text-gray-700 font-medium" for="skills">Skills</label>
+            <input class="w-full border rounded p-2" type="text" name="skills" id="">
+            
+        </div>
+        <div class="flex items-center justify-center">
+        <button class="p-2 m-6 w-1/2 bg-blue-500 text-white rounded hover:bg-blue-700">Submit</button>
+        </div>
+    </form>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <body class="p-6">
+
+    {% if not user.is_authenticated %}
+        <div style="text-align: center; margin-top: 100px;">
+            <h2>Create Professional CVs Easily</h2>
+            <p>Please log in to create and manage your CVs</p>
+
+            <a href="{% url 'login' %}">
+                <button>Log In</button>
+            </a>
+        </div>
+
+        
+
+    {% else %}
+        <h2>Your CVs</h2>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+
+            {% for profile in object_list %}
+                <div style="border: 1px solid #ccc; padding: 16px; width: 250px;">
+                    <h3>{{ profile.name }}</h3>
+                    <p>{{ profile.email }}</p>
+
+                    <a href="{% url 'resume' profile.pk %}">
+                        View CV
+                    </a>
+                    <form method="POST" action="{% url 'delete_profile' profile.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No CVs found. Create one!</p>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</body>
+</body>
+</html>
