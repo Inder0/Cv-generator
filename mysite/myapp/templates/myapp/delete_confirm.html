@@ -1,0 +1,29 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Delete CV{% endblock %}
+
+{% block content %}
+
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-2xl p-6 shadow-md text-center">
+        <h2 class="text-xl font-semibold mb-2">Delete CV</h2>
+        <p class="text-gray-500 mb-4">
+            Are you sure you want to delete <b>{{ profile.name }}</b>?
+        </p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="flex justify-center gap-4">
+                <a href="{% url 'home' %}"
+                   class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView,ListView
+from django.views.generic import CreateView,ListView,UpdateView
 from .models import Profile
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,15 +9,13 @@ from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 import io
+from .utils import get_skills_and_strengths
+from .forms import ProfileForm
 # Create your views here.
 
 class CreateProfileView(LoginRequiredMixin,CreateView):
     model=Profile
-    fields = [
-        'name', 'email', 'phone', 'degree',
-        'school', 'university', 'summary',
-        'previous_work', 'skills'
-    ]
+    form_class=ProfileForm
     template_name='myapp/accept.html'
     success_url = reverse_lazy('home')
     def form_valid(self, form):
@@ -39,30 +37,47 @@ class ProfileDashboardView(ListView):
             qs = qs.filter(name__icontains=query)
         return qs
 
+class UpdateProfileView(LoginRequiredMixin,UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'myapp/accept.html'
+    success_url = reverse_lazy('home')
 
+    def get_object(self):
+        obj = get_object_or_404(Profile, id=self.kwargs['pk'])
+        if obj.user != self.request.user:
+            raise PermissionError("Not allowed")
+        return obj
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
 @login_required
 def delete_profile_redirect(request, pk):
     profile = get_object_or_404(Profile, pk=pk, user=request.user)
-    profile.delete()
-    return redirect('home')
+    if request.method == "POST":
+        profile.delete()
+        return redirect('home')
+
+    return render(request, 'myapp/delete_confirm.html', {'profile': profile})
 
 @login_required
 def resume(request, pk):
     profile = get_object_or_404(Profile, pk=pk, user=request.user)
-    skills_list = []
-    if profile.skills:
-        skills_list = [skill.strip() for skill in profile.skills.split(',')]
+    skills_list,strengths=get_skills_and_strengths(profile.skills)
+
     return render(request, 'myapp/resume.html', {
         'profile': profile,
-        'skills_list': skills_list
+        'skills_list': skills_list,
+        'strengths':strengths
     })
 
 @login_required
 def download_resume(request,pk):
     profile=get_object_or_404(Profile,pk=pk,user=request.user)
     template_path='myapp/download.html'
-    skills_list = [s.strip() for s in profile.skills.split(',') if s.strip()]
-    context={'profile':profile,'skills_list':skills_list}
+    skills_list,strengths=get_skills_and_strengths(profile.skills)
+    context={'profile':profile,'skills_list':skills_list,'strengths':strengths}
     template=get_template(template_path)
     html=template.render(context)
     response=HttpResponse(content_type='application/pdf')
