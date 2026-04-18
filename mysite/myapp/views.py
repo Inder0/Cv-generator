@@ -13,7 +13,6 @@ import io
 
 class CreateProfileView(LoginRequiredMixin,CreateView):
     model=Profile
-
     fields = [
         'name', 'email', 'phone', 'degree',
         'school', 'university', 'summary',
@@ -32,7 +31,7 @@ class ProfileDashboardView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Profile.objects.filter(user=self.request.user)
+            return Profile.objects.filter(user=self.request.user).order_by('-created_at')
         return Profile.objects.none()
 
 @login_required
@@ -44,7 +43,13 @@ def delete_profile_redirect(request, pk):
 @login_required
 def resume(request, pk):
     profile = get_object_or_404(Profile, pk=pk, user=request.user)
-    return render(request, 'myapp/resume.html', {'profile': profile})
+    skills_list = []
+    if profile.skills:
+        skills_list = [skill.strip() for skill in profile.skills.split(',')]
+    return render(request, 'myapp/resume.html', {
+        'profile': profile,
+        'skills_list': skills_list
+    })
 
 @login_required
 def download_resume(request,pk):
