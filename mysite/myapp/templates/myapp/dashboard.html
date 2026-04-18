@@ -26,6 +26,19 @@
         <h2>Your CVs</h2>
 
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+            <form method="GET" class="mb-6">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Search CVs..." 
+                        value="{{ request.GET.q }}"
+                        class="border px-4 py-2 rounded w-64"
+                    >
+
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded">
+                        Search
+                    </button>
+                </form>
 
             {% for profile in object_list %}
                 <div style="border: 1px solid #ccc; padding: 16px; width: 250px;">
@@ -40,6 +53,7 @@
                         <button type="submit">Delete</button>
                     </form>
                 </div>
+                
             {% empty %}
                 <p>No CVs found. Create one!</p>
             {% endfor %}

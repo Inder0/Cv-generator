@@ -114,7 +114,11 @@
     <!-- Skills Section -->
     <div class="section">
       <h2>Skills</h2>
-      <p class="skills">{{ profile.skills }}</p>
+      <ul>
+          {% for skill in skills_list %}
+              <li>{{ skill }}</li>
+          {% endfor %}
+      </ul>
     </div>
   </body>
 </html>

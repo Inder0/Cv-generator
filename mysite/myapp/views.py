@@ -31,8 +31,14 @@ class ProfileDashboardView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Profile.objects.filter(user=self.request.user).order_by('-created_at')
-        return Profile.objects.none()
+            qs = Profile.objects.filter(user=self.request.user).order_by('-created_at')
+        else:
+            return Profile.objects.none()
+        query = self.request.GET.get('q') 
+        if query:
+            qs = qs.filter(name__icontains=query)
+        return qs
+
 
 @login_required
 def delete_profile_redirect(request, pk):
@@ -55,7 +61,8 @@ def resume(request, pk):
 def download_resume(request,pk):
     profile=get_object_or_404(Profile,pk=pk,user=request.user)
     template_path='myapp/download.html'
-    context={'profile':profile}
+    skills_list = [s.strip() for s in profile.skills.split(',') if s.strip()]
+    context={'profile':profile,'skills_list':skills_list}
     template=get_template(template_path)
     html=template.render(context)
     response=HttpResponse(content_type='applucation/pdf')
