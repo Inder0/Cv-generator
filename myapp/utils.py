@@ -1,3 +1,5 @@
+import re
+
 def get_skills_and_strengths(skills_string):
     skills_list = [skill.strip().title() for skill in skills_string.split(',')]
 
@@ -21,3 +23,14 @@ def get_skills_and_strengths(skills_string):
     ])
 
     return skills_list, list(set(strengths))
+
+
+def parse_text(text):
+    if not text:
+        return []
+
+    # Split by newline OR period
+    parts = re.split(r'\n|\. ', text)
+
+    # Clean + remove empty
+    return [p.strip().rstrip('.') for p in parts if p.strip()]

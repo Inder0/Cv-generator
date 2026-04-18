@@ -9,7 +9,7 @@ from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 import io
-from .utils import get_skills_and_strengths
+from .utils import get_skills_and_strengths,parse_text
 from .forms import ProfileForm
 # Create your views here.
 
@@ -77,7 +77,8 @@ def download_resume(request,pk):
     profile=get_object_or_404(Profile,pk=pk,user=request.user)
     template_path='myapp/download.html'
     skills_list,strengths=get_skills_and_strengths(profile.skills)
-    context={'profile':profile,'skills_list':skills_list,'strengths':strengths}
+    experience = parse_text(profile.previous_work)
+    context={'profile':profile,'skills_list':skills_list,'strengths':strengths,'experience':experience,}
     template=get_template(template_path)
     html=template.render(context)
     response=HttpResponse(content_type='application/pdf')

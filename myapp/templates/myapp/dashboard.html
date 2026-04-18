@@ -51,17 +51,17 @@
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-3 text-sm mt-3">
-                    <a href="{% url 'resume' profile.id %}" class="text-indigo-600 hover:underline">
+                <div class="flex flex-wrap gap-2 text-sm mt-3">
+                    <a href="{% url 'resume' profile.id %}" class="px-3 py-1 rounded-md bg-blue-100 text-indigo-600 hover:underline">
                         Preview
                     </a>
-                    <a href="{% url 'edit_profile' profile.id %}" class="text-yellow-600 hover:underline">
+                    <a href="{% url 'edit_profile' profile.id %}" class="px-3 py-1 rounded-md bg-yellow-100 text-yellow-600 hover:underline">
                         Edit
                     </a>
-                    <a href="{% url 'download_resume' profile.id %}" class="text-green-600 hover:underline">
+                    <a href="{% url 'download_resume' profile.id %}" class="px-3 py-1 rounded-md bg-green-100 text-green-600 hover:underline">
                         Download
                     </a>
-                    <a href="{% url 'delete_profile' profile.id %}" class="text-red-500 hover:underline">
+                    <a href="{% url 'delete_profile' profile.id %}" class="px-3 py-1 rounded-md bg-red-100 text-red-500 hover:underline">
                         Delete
                     </a>
                 </div>
