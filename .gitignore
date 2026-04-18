@@ -1,9 +1,5 @@
 __pycache__/
 *.pyc
-<<<<<<< HEAD
-env/
-db.sqlite3
-=======
 *.pyo
 
 env/
@@ -13,4 +9,3 @@ db.sqlite3
 
 *.log
 .DS_Store
->>>>>>> ui
