@@ -29,8 +29,6 @@ def parse_text(text):
     if not text:
         return []
 
-    # Split by newline OR period
     parts = re.split(r'\n|\. ', text)
 
-    # Clean + remove empty
     return [p.strip().rstrip('.') for p in parts if p.strip()]
