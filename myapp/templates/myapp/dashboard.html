@@ -31,7 +31,7 @@
 </div>
 
 
-<div class="bg-white rounded-2xl p-6 shadow-md">
+<div class="bg-white rounded-2xl p-6 shadow-md space-y-4">
 
     {% if object_list %}
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -67,30 +67,30 @@
                 </div>
             </div>
             {% endfor %}
-            
+    </div>
+    <div class="flex items-center justify-center gap-2">   
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+            class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300">
+                Prev
+            </a>
+        {% endif %}
 
+        <span class="px-3 py-1 text-sm text-gray-600">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+            class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300">
+                Next
+            </a>
+            {% endif %}
         </div>
+        
     {% else %}
-        <p class="text-gray-500 text-center">No CVs yet</p>
-    {% endif %}
-    <div class="mt-6 flex justify-center items-center gap-2">
-
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
-           class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300">
-            Prev
-        </a>
-    {% endif %}
-
-    <span class="px-3 py-1 text-sm text-gray-600">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
-           class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300">
-            Next
-        </a>
+        <p class="text-gray-500 text-center">No CVs yet, start by adding a CV!</p>
+    
     {% endif %}
 
 </div>
