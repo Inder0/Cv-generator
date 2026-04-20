@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 class CustomPasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
-        print("CUSTOM FORM LOADED")
         super().__init__(*args, **kwargs)
 
         self.fields["email"].widget.attrs.update({
@@ -17,8 +16,8 @@ class CustomPasswordResetForm(PasswordResetForm):
         users = User.objects.filter(email=email)
         if not users.exists():
             return email
+        return email
     def save(self, *args, **kwargs):
-        print("FORM SAVE CALLED")
         return super().save(*args, **kwargs)
         
 class CustomSetPasswordForm(SetPasswordForm):
@@ -33,5 +32,5 @@ class CustomSetPasswordForm(SetPasswordForm):
 
         for field in self.fields.values():
             field.widget.attrs.update({
-                "class": "w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500",
+                "class": "w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500",
             })
